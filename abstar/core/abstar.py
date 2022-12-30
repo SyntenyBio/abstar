@@ -457,16 +457,17 @@ def concat_outputs(input_file, temp_output_file_dicts, output_dir, args):
                             elif j >= 1:
                                 out_file.write(line)
         if args.parquet:
-            logger.info('Converting concatenated output to parquet format')
-            pname = oprefix + '.parquet'
+            logger.info("Converting concatenated output to parquet format")
+            pname = f"{oprefix}_from_{output_type}"  # Specify from which output format the parquet file will be written with
             pfile = os.path.join(output_subdir, pname)
+            dtypes = get_parquet_dtypes(output_type)
 
             if output_type == "json":
-                ...
+                df = dd.read_json(ofile, dtype=dtypes)
             else:
-                dtypes = get_parquet_dtypes(output_type)
                 df = dd.read_csv(ofile, sep=get_output_separator(output_type), dtype=dtypes)
-                df.to_parquet(pfile, engine='pyarrow')
+                
+            df.to_parquet(pfile, engine="pyarrow", compression="snappy", write_index=False)
 
         ofiles.append(ofile)
     return ofiles
