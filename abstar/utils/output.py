@@ -35,7 +35,6 @@ from abutils.utils import log
 from .cigar import make_cigar
 
 
-PARQUET_INCOMPATIBLE = ['json', ]
 OUTPUT_SEPARATORS = {'airr': '\t',
                      'imgt': ',',
                      'tabular': ','}

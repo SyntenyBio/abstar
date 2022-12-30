@@ -58,7 +58,6 @@ from ..assigners.assigner import BaseAssigner
 from ..assigners.registry import ASSIGNERS
 # from ..utils import output
 from ..utils.output import get_abstar_result, get_abstar_results, get_output, write_output, get_header, get_output_suffix, get_output_separator, get_parquet_dtypes
-from ..utils.output import PARQUET_INCOMPATIBLE
 from ..utils.queue.celery import celery
 
 
@@ -457,13 +456,18 @@ def concat_outputs(input_file, temp_output_file_dicts, output_dir, args):
                                 out_file.write(line)
                             elif j >= 1:
                                 out_file.write(line)
-        if args.parquet and output_type not in PARQUET_INCOMPATIBLE:
+        if args.parquet:
             logger.info('Converting concatenated output to parquet format')
             pname = oprefix + '.parquet'
             pfile = os.path.join(output_subdir, pname)
-            dtypes = get_parquet_dtypes(output_type)
-            df = dd.read_csv(ofile, sep=get_output_separator(output_type), dtype=dtypes)
-            df.to_parquet(pfile, engine='pyarrow')
+
+            if output_type == "json":
+                ...
+            else:
+                dtypes = get_parquet_dtypes(output_type)
+                df = dd.read_csv(ofile, sep=get_output_separator(output_type), dtype=dtypes)
+                df.to_parquet(pfile, engine='pyarrow')
+
         ofiles.append(ofile)
     return ofiles
 
