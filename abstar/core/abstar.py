@@ -47,7 +47,7 @@ import shutil
 
 from Bio import SeqIO
 
-# import dask.dataframe as dd
+import dask.dataframe as dd
 
 from abutils.core.sequence import Sequence, read_json, read_csv
 from abutils.utils import log
