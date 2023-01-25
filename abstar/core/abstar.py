@@ -442,14 +442,15 @@ def concat_outputs(input_file, temp_output_file_dicts, output_dir, args):
         else:
             ohandle = open(ofile, 'wb')
         with ohandle as out_file:
-            with open(temp_file, "rb") as f:
-                # JSON-formatted files don't have headers, so we don't worry about it
-                if output_type == 'json':
-                    for temp_file in temp_files:
+            # JSON-formatted files don't have headers, so we don't worry about it
+            if output_type == 'json':
+                for temp_file in temp_files:
+                    with open(temp_file, "rb") as f:
                         shutil.copyfileobj(f, out_file, length=16 * 1024**2)  # Increasing buffer size to 16MB for faster transfer
-                # For file formats with headers, only keep headers from the first file
-                if output_type in ['imgt', 'tabular', 'airr']:
-                    for i, temp_file in enumerate(temp_files):
+            # For file formats with headers, only keep headers from the first file
+            if output_type in ['imgt', 'tabular', 'airr']:
+                for i, temp_file in enumerate(temp_files):
+                    with open(temp_file, "rb") as f:
                         for j, line in enumerate(f):
                             if i == 0:
                                 out_file.write(line)
