@@ -239,7 +239,7 @@ class AbstarResult(object):
                         'score': self.antibody.j.score,
                         'assigner_score': self.antibody.j.assigner_score,
                         'others': [{'full': o.full,
-                                    'score': o.assigner_score}
+                                    'assigner_score': o.assigner_score}
                                    for o in self.antibody.j.others]
 #                                    for germ, score in zip(self.antibody.j.all_germlines[1:], self.antibody.j.all_scores[1:])]
                         }),
