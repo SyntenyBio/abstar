@@ -164,7 +164,7 @@ class Mutation(object):
     def json_formatted(self):
         return {'was': self.was,
                 'is': self.now,
-                'raw_position': self.raw_position,
+                'raw_position': str(self.raw_position),
                 'position': str(self.imgt_position),
                 'codon': str(self.imgt_codon)}
 
