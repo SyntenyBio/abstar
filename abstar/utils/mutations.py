@@ -165,8 +165,8 @@ class Mutation(object):
         return {'was': self.was,
                 'is': self.now,
                 'raw_position': self.raw_position,
-                'position': self.imgt_position,
-                'codon': self.imgt_codon}
+                'position': str(self.imgt_position),
+                'codon': str(self.imgt_codon)}
 
 
 
