@@ -5,42 +5,6 @@ schema = pa.schema(
     [
         pa.field("seq_id", pa.string()),
         pa.field("chain", pa.string()),
-        pa.field("vdj_assigner", pa.string()),
-        pa.field("isotype", pa.string()),
-        pa.field("isotype_score", pa.int64()),
-        pa.field("junc_len", pa.int64()),
-        pa.field("cdr3_len", pa.int64()),
-        pa.field("vdj_nt", pa.string()),
-        pa.field("gapped_vdj_nt", pa.string()),
-        pa.field("fr1_nt", pa.string()),
-        pa.field("cdr1_nt", pa.string()),
-        pa.field("fr2_nt", pa.string()),
-        pa.field("cdr2_nt", pa.string()),
-        pa.field("fr3_nt", pa.string()),
-        pa.field("cdr3_nt", pa.string()),
-        pa.field("fr4_nt", pa.string()),
-        pa.field("vdj_germ_nt", pa.string()),
-        pa.field("gapped_vdj_germ_nt", pa.string()),
-        pa.field("junc_nt", pa.string()),
-        pa.field("mut_count_nt", pa.int64()),
-        pa.field("vdj_aa", pa.string()),
-        pa.field("fr1_aa", pa.string()),
-        pa.field("cdr1_aa", pa.string()),
-        pa.field("fr2_aa", pa.string()),
-        pa.field("cdr2_aa", pa.string()),
-        pa.field("fr3_aa", pa.string()),
-        pa.field("cdr3_aa", pa.string()),
-        pa.field("fr4_aa", pa.string()),
-        pa.field("vdj_germ_aa", pa.string()),
-        pa.field("junc_aa", pa.string()),
-        pa.field("prod", pa.string()),
-        pa.field("productivity_issues", pa.string()),
-        pa.field("junction_in_frame", pa.string()),
-        pa.field("raw_input", pa.string()),
-        pa.field("oriented_input", pa.string()),
-        pa.field("strand", pa.string()),
-        pa.field("germline_database", pa.string()),
-        pa.field("species", pa.string()),
         pa.field(
             "v_gene",
             pa.struct(
@@ -119,6 +83,9 @@ schema = pa.schema(
                 ]
             ),
         ),
+        pa.field("vdj_assigner", pa.string()),
+        pa.field("isotype", pa.string()),
+        pa.field("isotype_score", pa.int64()),
         pa.field(
             "isotype_alignment",
             pa.struct(
@@ -147,22 +114,22 @@ schema = pa.schema(
                 ]
             ),
         ),
+        pa.field("junc_len", pa.int64()),
+        pa.field("cdr3_len", pa.int64()),
+        pa.field("vdj_nt", pa.string()),
+        pa.field("gapped_vdj_nt", pa.string()),
+        pa.field("fr1_nt", pa.string()),
+        pa.field("cdr1_nt", pa.string()),
+        pa.field("fr2_nt", pa.string()),
+        pa.field("cdr2_nt", pa.string()),
+        pa.field("fr3_nt", pa.string()),
+        pa.field("cdr3_nt", pa.string()),
+        pa.field("fr4_nt", pa.string()),
+        pa.field("vdj_germ_nt", pa.string()),
+        pa.field("gapped_vdj_germ_nt", pa.string()),
+        pa.field("junc_nt", pa.string()),
         pa.field(
             "region_len_nt",
-            pa.struct(
-                [
-                    pa.field("fr1", pa.int64()),
-                    pa.field("cdr1", pa.int64()),
-                    pa.field("fr2", pa.int64()),
-                    pa.field("cdr2", pa.int64()),
-                    pa.field("fr3", pa.int64()),
-                    pa.field("cdr3", pa.int64()),
-                    pa.field("fr4", pa.int64()),
-                ]
-            ),
-        ),
-        pa.field(
-            "region_len_aa",
             pa.struct(
                 [
                     pa.field("fr1", pa.int64()),
@@ -198,7 +165,7 @@ schema = pa.schema(
             ),
         ),
         pa.field(
-            "var_muts_aa",
+            "join_muts_nt",
             pa.struct(
                 [
                     pa.field("num", pa.int64()),
@@ -219,8 +186,33 @@ schema = pa.schema(
                 ]
             ),
         ),
+        pa.field("mut_count_nt", pa.int64()),
+        pa.field("vdj_aa", pa.string()),
+        pa.field("fr1_aa", pa.string()),
+        pa.field("cdr1_aa", pa.string()),
+        pa.field("fr2_aa", pa.string()),
+        pa.field("cdr2_aa", pa.string()),
+        pa.field("fr3_aa", pa.string()),
+        pa.field("cdr3_aa", pa.string()),
+        pa.field("fr4_aa", pa.string()),
+        pa.field("vdj_germ_aa", pa.string()),
+        pa.field("junc_aa", pa.string()),
         pa.field(
-            "join_muts_nt",
+            "region_len_aa",
+            pa.struct(
+                [
+                    pa.field("fr1", pa.int64()),
+                    pa.field("cdr1", pa.int64()),
+                    pa.field("fr2", pa.int64()),
+                    pa.field("cdr2", pa.int64()),
+                    pa.field("fr3", pa.int64()),
+                    pa.field("cdr3", pa.int64()),
+                    pa.field("fr4", pa.int64()),
+                ]
+            ),
+        ),
+        pa.field(
+            "var_muts_aa",
             pa.struct(
                 [
                     pa.field("num", pa.int64()),
@@ -585,6 +577,12 @@ schema = pa.schema(
                 ]
             ),
         ),
+        pa.field("prod", pa.string()),
+        pa.field("productivity_issues", pa.string()),
+        pa.field("junction_in_frame", pa.string()),
+        pa.field("raw_input", pa.string()),
+        pa.field("oriented_input", pa.string()),
+        pa.field("strand", pa.string()),
         pa.field(
             "germ_alignments_nt",
             pa.struct(
@@ -648,6 +646,8 @@ schema = pa.schema(
                 ]
             ),
         ),
+        pa.field("germline_database", pa.string()),
+        pa.field("species", pa.string()),
         pa.field(
             "align_info",
             pa.struct(
