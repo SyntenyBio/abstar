@@ -562,6 +562,7 @@ def get_parquet_dtypes(output_format):
             "cdr3_len": int,
             "vdj_nt": str,
             "gapped_vdj_nt": str,
+            "cdr2_nt": str,
             "fr3_nt": str,
             "cdr3_nt": str,
             "fr4_nt": str,
@@ -584,6 +585,7 @@ def get_parquet_dtypes(output_format):
             "region_muts_nt": str,
             "region_muts_aa": str,
             "prod": str,
+            "productivity_issues": str,
             "junction_in_frame": str,
             "raw_input": str,
             "oriented_input": str,
@@ -594,12 +596,10 @@ def get_parquet_dtypes(output_format):
             "germline_database": str,
             "species": str,
             "align_info": str,
-            "productivity_issues": str,
             "j_del": str,
             "v_del": str,
             "j_ins": str,
             "v_ins": str,
-            "cdr2_nt": str,
         }
     else:
         dtypes = {}
