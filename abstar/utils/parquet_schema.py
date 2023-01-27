@@ -564,4 +564,48 @@ schema = {
             pa.field("j_end", pa.int64()),
         ]
     ),
+    "j_del": pa.list_(
+        pa.struct(
+            [
+                pa.field("in_frame", pa.string()),
+                pa.field("length", pa.int64()),
+                pa.field("sequence", pa.string()),
+                pa.field("position", pa.string()),
+                pa.field("codon", pa.string()),
+            ]
+        )
+    ),
+    "v_del": pa.list_(
+        pa.struct(
+            [
+                pa.field("in_frame", pa.string()),
+                pa.field("length", pa.int64()),
+                pa.field("sequence", pa.string()),
+                pa.field("position", pa.string()),
+                pa.field("codon", pa.string()),
+            ]
+        )
+    ),
+    "j_ins": pa.list_(
+        pa.struct(
+            [
+                pa.field("in_frame", pa.string()),
+                pa.field("length", pa.int64()),
+                pa.field("sequence", pa.string()),
+                pa.field("position", pa.string()),
+                pa.field("codon", pa.string()),
+            ]
+        )
+    ),
+    "v_ins": pa.list_(
+        pa.struct(
+            [
+                pa.field("in_frame", pa.string()),
+                pa.field("length", pa.int64()),
+                pa.field("sequence", pa.string()),
+                pa.field("position", pa.string()),
+                pa.field("codon", pa.string()),
+            ]
+        )
+    ),
 }
