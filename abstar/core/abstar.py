@@ -48,9 +48,12 @@ import shutil
 from Bio import SeqIO
 
 import dask.dataframe as dd
+import dask.bag as db
+import pandas as pd
 
 from abutils.core.sequence import Sequence, read_json, read_csv
 from abutils.utils import log
+from abstar.utils.parquet_schema import schema
 # from abutils.utils.pipeline import list_files
 
 from .antibody import Antibody
@@ -463,11 +466,22 @@ def concat_outputs(input_file, temp_output_file_dicts, output_dir, args):
             dtypes = get_parquet_dtypes(output_type)
 
             if output_type == "json":
-                df = dd.read_json(ofile, dtype=dtypes)
+                meta = pd.DataFrame(columns=dtypes).astype(dtypes)
+                df = (
+                    db.read_text(ofile, blocksize=2**28)
+                    .map(json.loads)
+                    .to_dataframe(meta=meta)
+                )
+                df.to_parquet(
+                    pfile,
+                    engine="pyarrow",
+                    compression="snappy",
+                    write_index=False,
+                    schema=schema,
+                )
             else:
                 df = dd.read_csv(ofile, sep=get_output_separator(output_type), dtype=dtypes)
-                
-            df.to_parquet(pfile, engine="pyarrow", compression="snappy", write_index=False)
+                df.to_parquet(pfile, engine="pyarrow", compression="snappy", write_index=False)
 
         ofiles.append(ofile)
     return ofiles
