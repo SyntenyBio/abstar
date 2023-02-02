@@ -444,14 +444,15 @@ def concat_outputs(input_file, temp_output_file_dicts, output_dir, args):
             ohandle = gzip.open(ofile + ".gz", 'wb')
         else:
             ohandle = open(ofile, 'wb')
+
         with ohandle as out_file:
             # JSON-formatted files don't have headers, so we don't worry about it
-            if output_type == 'json':
+            if output_type == 'json' and not args.parquet:
                 for temp_file in temp_files:
                     with open(temp_file, "rb") as f:
                         shutil.copyfileobj(f, out_file, length=16 * 1024**2)  # Increasing buffer size to 16MB for faster transfer
             # For file formats with headers, only keep headers from the first file
-            if output_type in ['imgt', 'tabular', 'airr']:
+            elif output_type in ['imgt', 'tabular', 'airr']:
                 for i, temp_file in enumerate(temp_files):
                     with open(temp_file, "rb") as f:
                         for j, line in enumerate(f):
@@ -459,6 +460,7 @@ def concat_outputs(input_file, temp_output_file_dicts, output_dir, args):
                                 out_file.write(line)
                             elif j >= 1:
                                 out_file.write(line)
+
         if args.parquet:
             logger.info("Converting concatenated output to parquet format")
             pname = f"{oprefix}_from_{output_type}"  # Specify from which output format the parquet file will be written with
@@ -466,19 +468,9 @@ def concat_outputs(input_file, temp_output_file_dicts, output_dir, args):
             dtypes = get_parquet_dtypes(output_type)
 
             if output_type == "json":
-                meta = pd.DataFrame(columns=dtypes).astype(dtypes)
-                df = (
-                    db.read_text(ofile, blocksize=2**28)
-                    .map(json.loads)
-                    .to_dataframe(meta=meta)
-                )
-                df.to_parquet(
-                    pfile,
-                    engine="pyarrow",
-                    compression="snappy",
-                    write_index=False,
-                    schema=schema,
-                )
+                os.makedirs(pfile)
+                for temp_file in temp_files:
+                    shutil.move(temp_file, pfile + os.path.basename(temp_file))
             else:
                 df = dd.read_csv(ofile, sep=get_output_separator(output_type), dtype=dtypes)
                 df.to_parquet(pfile, engine="pyarrow", compression="snappy", write_index=False)
