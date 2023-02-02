@@ -724,7 +724,7 @@ def run_abstar(seq_file, output_dir, log_dir, file_format, arg_dict):
                 failed_loghandle.write(ab.format_log())
         # outputs = [outputs_dict[ot] for ot in sorted(args.output_type)]
         # write_output(outputs, output_files)
-        output_file_dict = write_output(outputs_dict, output_dir, output_filename)
+        output_file_dict = write_output(outputs_dict, output_dir, output_filename, args.parquet)
         # capture the log for all unsuccessful sequences
         for vdj in assigner.unassigned:
             unassigned_loghandle.write(vdj.format_log())

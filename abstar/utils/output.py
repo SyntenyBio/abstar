@@ -29,8 +29,10 @@ import json
 import os
 import traceback
 import uuid
+import pandas as pd
 
 from abutils.utils import log
+from abstar.utils.parquet_schema import schema
 
 from .cigar import make_cigar
 
@@ -642,7 +644,7 @@ def get_output(result, output_type):
 #         with open(outfile, 'w') as f:
 #             f.write('\n'.join(_outputs))
 
-def write_output(output_dict, output_dir, output_prefix):
+def write_output(output_dict, output_dir, output_prefix, write_parquet: bool):
     output_file_dict = {}
     for fmt in output_dict.keys():
         subdir = os.path.join(output_dir, fmt)
