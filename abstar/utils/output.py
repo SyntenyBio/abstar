@@ -654,8 +654,8 @@ def write_output(output_dict, output_dir, output_prefix, write_parquet: bool):
             output_file = os.path.join(subdir, output_name)
             dtypes = get_parquet_dtypes(fmt)
             df = pd.DataFrame.from_records(output_dict[fmt])
-            df = df.reindex(columns=schema.names).astype(dtypes)
-            df.to_parquet("test.parquet", engine="pyarrow", compression="snappy", schema=schema)
+            df = df.reindex(columns=schema.names).astype(dtypes, errors="ignore")
+            df.to_parquet(output_file, engine="pyarrow", compression="snappy", schema=schema)
         else:
             output_name = output_prefix + get_output_suffix(fmt)
             output_file = os.path.join(subdir, output_name)
