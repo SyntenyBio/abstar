@@ -470,7 +470,7 @@ def concat_outputs(input_file, temp_output_file_dicts, output_dir, args):
             if output_type == "json":
                 os.makedirs(pfile)
                 for temp_file in temp_files:
-                    shutil.move(temp_file, os.path.join(pfile, os.path.basename(temp_file)))
+                    shutil.move(temp_file, pfile)
             else:
                 df = dd.read_csv(ofile, sep=get_output_separator(output_type), dtype=dtypes)
                 df.to_parquet(pfile, engine="pyarrow", compression="snappy", write_index=False)
