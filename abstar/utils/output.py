@@ -650,7 +650,7 @@ def write_output(output_dict, output_dir, output_prefix, write_parquet: bool):
         subdir = os.path.join(output_dir, fmt)
         
         if fmt == "json" and write_parquet:
-            output_name = output_prefix + ".parquet"
+            output_name = output_prefix + ".snappy.parquet"
             output_file = os.path.join(subdir, output_name)
             dtypes = get_parquet_dtypes(fmt)
             df = pd.DataFrame.from_records(output_dict[fmt])
