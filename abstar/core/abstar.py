@@ -468,9 +468,15 @@ def concat_outputs(input_file, temp_output_file_dicts, output_dir, args):
             dtypes = get_parquet_dtypes(output_type)
 
             if output_type == "json":
-                os.makedirs(pfile)
-                for temp_file in temp_files:
-                    shutil.move(temp_file, pfile)
+                df = dd.read_parquet(os.path.dirname(temp_files[0]))  # Read in all parquet files in temp dir
+                df.repartition(partition_size="100MB").to_parquet(
+                    pfile,
+                    engine="pyarrow",
+                    compression="snappy",
+                    write_metadata_file=False,
+                    write_index=False,
+                    schema=schema,
+                )
             else:
                 df = dd.read_csv(ofile, sep=get_output_separator(output_type), dtype=dtypes)
                 df.to_parquet(pfile, engine="pyarrow", compression="snappy", write_index=False)
