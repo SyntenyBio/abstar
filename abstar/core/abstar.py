@@ -501,8 +501,7 @@ def concat_logs(input_file, logs, log_dir, log_type):
 
 def clear_temp_files(temp_files):
     for f in temp_files:
-        if os.path.exists(f):
-            os.unlink(f)
+        os.unlink(f)
 
 
 #####################################################################
