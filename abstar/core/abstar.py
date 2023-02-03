@@ -473,7 +473,6 @@ def concat_outputs(input_file, temp_output_file_dicts, output_dir, args):
                     pfile,
                     engine="pyarrow",
                     compression="snappy",
-                    write_metadata_file=False,
                     write_index=False,
                     schema=schema,
                 )
