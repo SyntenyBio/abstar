@@ -765,8 +765,10 @@ def run_jobs(files, output_dir, log_dir, file_format, args):
     if args.cluster:
         return _run_jobs_via_celery(files, output_dir, log_dir, file_format, args)
     elif args.debug or args.chunksize == 0:
+        logger.info("Running jobs single-threaded: abstar/core/abstar.py line 768")
         return _run_jobs_singlethreaded(files, output_dir, log_dir, file_format, args)
     else:
+        logger.info("Running jobs multi-threaded: abstar/core/abstar.py line 771")
         return _run_jobs_via_multiprocessing(files, output_dir, log_dir, file_format, args)
 
 
@@ -781,6 +783,7 @@ def _run_jobs_singlethreaded(files, output_dir, log_dir, file_format, args):
             logger.debug('FILE-LEVEL EXCEPTION: {}'.format(f))
             logging.debug(traceback.format_exc())
     logger.info('')
+    logger.info("abstar/core/abstar.py line 786")
     return results
 
 
@@ -795,6 +798,7 @@ def _run_jobs_via_multiprocessing(files, output_dir, log_dir, file_format, args)
                                                          log_dir,
                                                          file_format,
                                                          vars(args)))))
+    logger.info("abstar/core/abstar.py line 801")
     monitor_mp_jobs([ar[1] for ar in async_results], print_progress=args.verbose)
     results = []
     for a in async_results:
@@ -806,8 +810,10 @@ def _run_jobs_via_multiprocessing(files, output_dir, log_dir, file_format, args)
             #     traceback.print_exc()
             logging.debug(''.join(traceback.format_exc()))
             continue
+    logger.info("abstar/core/abstar.py line 813")
     p.close()
     p.join()
+    logger.info("abstar/core/abstar.py line 816")
     return results
 
 
@@ -1179,12 +1185,14 @@ def main(args):
         input_tempdir = os.path.join(temp_dir, 'input')
         subfiles, seq_count = split_file(f, fmt, input_tempdir, args)
         run_info = run_jobs(subfiles, temp_dir, log_dir, fmt, args)
+        logger.info("Completed Abstar runs: abstar/core/abstar.py line 1188")
         temp_output_file_dicts = [r[0] for r in run_info if r is not None]
         processed_seq_counts = [r[1] for r in run_info if r is not None]
         annotated_log_files = [r[2] for r in run_info if r is not None]
         failed_log_files = [r[3] for r in run_info if r is not None]
         unassigned_log_files = [r[4] for r in run_info if r is not None]
         vdj_end_time = time.time()
+        logger.info("Just before concatenating outputs: abstar/core/abstar.py line 1195")
         _output_files = concat_outputs(f, temp_output_file_dicts, output_dir, args)
         unassigned_file = concat_logs(f, unassigned_log_files, log_dir, 'unassigned')
         failed_file = concat_logs(f, failed_log_files, log_dir, 'failed')
