@@ -459,7 +459,9 @@ def concat_outputs(input_file, temp_output_file_dicts, output_dir, args):
 
         if args.parquet:
             logger.info('Converting concatenated output to parquet format')
-            pname = f"{oprefix}_from_{output_type}"  # Specify from which output format the parquet file will be written with
+            # Make clear the output format from which the parquet file is generated.
+            # If the parquet files are generated from json for example, the filename would be f"{oprefix}_from_json".
+            pname = f"{oprefix}_from_{output_type}"
             pfile = os.path.join(output_subdir, pname)
             dtypes = get_parquet_dtypes(output_type)
 
