@@ -1187,12 +1187,17 @@ def main(args):
         run_info = run_jobs(subfiles, temp_dir, log_dir, fmt, args)
         logger.info("Completed Abstar runs: abstar/core/abstar.py line 1188")
         temp_output_file_dicts = [r[0] for r in run_info if r is not None]
+        logger.info("Just before concatenating outputs: abstar/core/abstar.py line 1190")
         processed_seq_counts = [r[1] for r in run_info if r is not None]
+        logger.info("Just before concatenating outputs: abstar/core/abstar.py line 1192")
         annotated_log_files = [r[2] for r in run_info if r is not None]
+        logger.info("Just before concatenating outputs: abstar/core/abstar.py line 1194")
         failed_log_files = [r[3] for r in run_info if r is not None]
+        logger.info("Just before concatenating outputs: abstar/core/abstar.py line 1196")
         unassigned_log_files = [r[4] for r in run_info if r is not None]
+        logger.info("Just before concatenating outputs: abstar/core/abstar.py line 1198")
         vdj_end_time = time.time()
-        logger.info("Just before concatenating outputs: abstar/core/abstar.py line 1195")
+        logger.info("Just before concatenating outputs: abstar/core/abstar.py line 1200")
         _output_files = concat_outputs(f, temp_output_file_dicts, output_dir, args)
         unassigned_file = concat_logs(f, unassigned_log_files, log_dir, 'unassigned')
         failed_file = concat_logs(f, failed_log_files, log_dir, 'failed')
