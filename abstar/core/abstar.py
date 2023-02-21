@@ -793,18 +793,20 @@ def _run_jobs_via_multiprocessing(files, output_dir, log_dir, file_format, args)
     if args.verbose:
         update_progress(0, len(files))
     for f in files:
+        logger.info(f"Assigning and running Abstar for PIDs: {os.getpid()}")
         async_results.append((f, p.apply_async(run_abstar, (f,
                                                          output_dir,
                                                          log_dir,
                                                          file_format,
                                                          vars(args)))))
     logger.info("abstar/core/abstar.py line 801")
-    monitor_mp_jobs([ar[1] for ar in async_results], print_progress=args.verbose)
+    monitor_mp_jobs([ar[1] for ar in async_results], print_progress=True)
     results = []
     for a in async_results:
         try:
             results.append(a[1].get())
-        except:
+        except Exception as e:
+            logger.info(f"Exception is: {e}")
             logger.debug('FILE-LEVEL EXCEPTION: {}'.format(a[0]))
             # if args.debug:
             #     traceback.print_exc()
@@ -812,6 +814,8 @@ def _run_jobs_via_multiprocessing(files, output_dir, log_dir, file_format, args)
             continue
     logger.info("abstar/core/abstar.py line 813")
     p.close()
+    logger.info("Pool resource closed successfully.")
+    logger.info(f"Closing pool resources for PIDs: {os.getpid()}")
     p.join()
     logger.info("abstar/core/abstar.py line 816")
     return results
